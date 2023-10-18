@@ -1,4 +1,4 @@
-package br.com.lucaspinto.todolist.user;
+package br.com.cursojava.todolist.user;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -11,10 +11,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import lombok.Data;
 
-@Data // getters e setters
-@Entity(name="tb_users")
+@Data
+@Entity(name = "tb_users")
 public class UserModel {
-
 
     @Id
     @GeneratedValue(generator = "UUID")
@@ -27,5 +26,4 @@ public class UserModel {
 
     @CreationTimestamp
     private LocalDateTime createdAt;
-
 }

@@ -1,4 +1,4 @@
-package br.com.lucaspinto.todolist.user;
+package br.com.cursojava.todolist.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,25 +13,23 @@ import at.favre.lib.crypto.bcrypt.BCrypt;
 @RestController
 @RequestMapping("/users")
 public class UserController {
-
-    @Autowired
+    
+    @Autowired //gerencia, instancia, cuida do ciclo de vida do meu Repository
     private IUserRepository userRepository;
 
     @PostMapping("/")
     public ResponseEntity create(@RequestBody UserModel userModel){
+        
         var user = this.userRepository.findByUsername(userModel.getUsername());
-
         if(user != null){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário já existe!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Usuário já existe");
         }
 
-        var passwordHashred = BCrypt.withDefaults().hashToString(12, userModel.getPassword().toCharArray());
+        var passwordHashed = BCrypt.withDefaults().hashToString(12, userModel.getPassword().toCharArray());
 
-        userModel.setPassword(passwordHashred);
-        
+        userModel.setPassword(passwordHashed);
+
         var userCreated = this.userRepository.save(userModel);
-
         return ResponseEntity.status(HttpStatus.CREATED).body(userCreated);
     }
-    
 }
